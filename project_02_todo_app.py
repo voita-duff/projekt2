@@ -40,9 +40,21 @@ def save_tasks(tasks):
 def add_task(tasks):
     # Automaticky vygenerujeme ID ukolu podle poctu ulozenych uloh
     task_id = str(len(tasks) + 1)
-    name = input("Zadejte název úkolu: ").strip()
-    priority = input("Zadejte prioritu (Nízká, Střední, Vysoká, výchozí Střední): ").strip() or "Střední"
-    deadline = input("Zadejte termín splnění (YYYY-MM-DD, volitelné): ").strip()
+    while True:
+        name = input("Zadejte název úkolu: ").strip()
+        if name != "": #osetreni vstupu
+            priority = input("Zadejte prioritu (Nízká, Střední, Vysoká, výchozí Střední): ").strip() or "Střední"
+            deadline_question = input("Do you want to set a deadline? y/n: ").strip().lower()
+            if deadline_question == "y":
+                try:
+                    deadline = int(input("Zadejte termín splnění (YYYY-MM-DD, volitelné): ")).strip()
+                except ValueError:
+                    print("Invalid date...")
+            else:
+                break
+        elif name == "":
+            print("Ukol se musi nejak jmenovat...")
+        
     status = "Ne"
     # Vytvorime novy ukol jako slovnik
     task = {"id": task_id, "name": name, "priority": priority, "deadline": deadline, "status": status}
